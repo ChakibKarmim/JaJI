@@ -35,6 +35,10 @@ class Questions
     #[ORM\Column(type: Types::ARRAY)]
     private array $answers = [];
 
+    #[ORM\ManyToOne(inversedBy: 'questions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Quizz $quizz_id = null;
+
 
     public function getId(): ?string
     {
@@ -97,6 +101,18 @@ class Questions
     public function setAnswers(array $answers): self
     {
         $this->answers = $answers;
+
+        return $this;
+    }
+
+    public function getQuizzId(): ?Quizz
+    {
+        return $this->quizz_id;
+    }
+
+    public function setQuizzId(?Quizz $quizz_id): self
+    {
+        $this->quizz_id = $quizz_id;
 
         return $this;
     }

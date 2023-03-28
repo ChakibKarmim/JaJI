@@ -21,6 +21,14 @@ class UserLessons
     #[ORM\Column]
     private ?bool $is_completed = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user_lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Lesson $lesson = null;
+
+    #[ORM\ManyToOne(inversedBy: 'lessons')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user_id = null;
+
 
 
     public function getId(): ?string
@@ -36,6 +44,30 @@ class UserLessons
     public function setIsCompleted(bool $is_completed): self
     {
         $this->is_completed = $is_completed;
+
+        return $this;
+    }
+
+    public function getLesson(): ?Lesson
+    {
+        return $this->lesson;
+    }
+
+    public function setLesson(?Lesson $lesson): self
+    {
+        $this->lesson = $lesson;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?User $user_id): self
+    {
+        $this->user_id = $user_id;
 
         return $this;
     }

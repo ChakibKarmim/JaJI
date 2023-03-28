@@ -21,6 +21,14 @@ class UserQuizz
     #[ORM\Column]
     private ?int $result = null;
 
+    #[ORM\ManyToOne(inversedBy: 'user_quizz')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'user_quizz')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Quizz $quizz_id = null;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -34,6 +42,30 @@ class UserQuizz
     public function setResult(int $result): self
     {
         $this->result = $result;
+
+        return $this;
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(?User $user_id): self
+    {
+        $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getQuizzId(): ?Quizz
+    {
+        return $this->quizz_id;
+    }
+
+    public function setQuizzId(?Quizz $quizz_id): self
+    {
+        $this->quizz_id = $quizz_id;
 
         return $this;
     }

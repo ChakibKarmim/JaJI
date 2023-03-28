@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\LessonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
@@ -27,6 +28,15 @@ class Lesson
 
     #[ORM\OneToMany(mappedBy: 'lesson', targetEntity: UserLessons::class, orphanRemoval: true)]
     private Collection $user_lessons;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $video_url = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $Intro = null;
 
     public function __construct()
     {
@@ -88,6 +98,42 @@ class Lesson
                 $userLesson->setLesson(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getVideoUrl(): ?string
+    {
+        return $this->video_url;
+    }
+
+    public function setVideoUrl(?string $video_url): self
+    {
+        $this->video_url = $video_url;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getIntro(): ?string
+    {
+        return $this->Intro;
+    }
+
+    public function setIntro(string $Intro): self
+    {
+        $this->Intro = $Intro;
 
         return $this;
     }

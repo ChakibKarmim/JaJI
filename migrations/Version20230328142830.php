@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230328141920 extends AbstractMigration
+final class Version20230328142830 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -37,7 +37,7 @@ final class Version20230328141920 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_D653FD6AA76ED395 ON formations_user (user_id)');
         $this->addSql('COMMENT ON COLUMN formations_user.formations_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN formations_user.user_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE lesson (id UUID NOT NULL, chapter_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE lesson (id UUID NOT NULL, chapter_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, video_url VARCHAR(255) DEFAULT NULL, content TEXT NOT NULL, intro TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F87474F3FF0D08E8 ON lesson (chapter_id_id)');
         $this->addSql('COMMENT ON COLUMN lesson.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN lesson.chapter_id_id IS \'(DC2Type:uuid)\'');

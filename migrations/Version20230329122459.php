@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230329110138 extends AbstractMigration
+final class Version20230329122459 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -52,7 +52,7 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7C77973D2B0A929A ON quizz (chaptre_id_id)');
         $this->addSql('COMMENT ON COLUMN quizz.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN quizz.chaptre_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, user_formations_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles VARCHAR(50) NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, user_formations_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles JSON NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8D93D649B58CDA09 ON "user" (career_id)');
         $this->addSql('CREATE INDEX IDX_8D93D649D57B1D92 ON "user" (user_formations_id)');
         $this->addSql('COMMENT ON COLUMN "user".id IS \'(DC2Type:uuid)\'');

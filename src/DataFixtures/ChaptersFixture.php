@@ -6,6 +6,7 @@ use App\Entity\Chapters;
 use App\Entity\Formations;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ramsey\Uuid\Uuid;
 
 class ChaptersFixture extends Fixture implements DependentFixtureInterface
@@ -15,12 +16,22 @@ class ChaptersFixture extends Fixture implements DependentFixtureInterface
         $formations = $manager->getRepository(Formations::class)->findall();
         $chapters = new Chapters();
         $chapters->setTitle('chapitre 1');
-        $chapters->setFormationId($formations->getId());
+        $chapters->setFormationId($formations[0]);
         $manager->persist($chapters);
 
         $chapters = new Chapters();
         $chapters->setTitle('chapitre 2');
-        $chapters->setFormationId($formations->getId());
+        $chapters->setFormationId($formations[0]);
+        $manager->persist($chapters);
+
+        $chapters = new Chapters();
+        $chapters->setTitle('chapitre 1');
+        $chapters->setFormationId($formations[1]);
+        $manager->persist($chapters);
+
+        $chapters = new Chapters();
+        $chapters->setTitle('chapitre 2');
+        $chapters->setFormationId($formations[1]);
         $manager->persist($chapters);
 
         $manager->flush();
@@ -28,7 +39,7 @@ class ChaptersFixture extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            FormationFixtures::class
+            FormationsFixture::class
         ];
     }
 }

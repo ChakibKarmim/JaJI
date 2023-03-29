@@ -7,6 +7,7 @@ use App\Entity\Career;
 use App\Entity\Formations;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Ramsey\Uuid\Uuid;
 
 
@@ -24,7 +25,20 @@ class FormationsFixture extends Fixture implements DependentFixtureInterface
         $formation->setDifficulty('easy');
         $formation->setNbLessons(2);
         $formation->setCareer($career[0]);
-        $formation->setCareer($user[0]);
+        $formation->setAuthorId($user[0]);
+        $formation->setCoverUrl('img.png');
+
+        $manager->persist($formation);
+
+        $formation = new Formations();
+        $formation->setTitle('Formation 2');
+        $formation->setDescription('lorem ipsum');
+        $formation->setDuration(21600000);
+        $formation->setDifficulty('hard');
+        $formation->setNbLessons(2);
+        $formation->setCareer($career[1]);
+        $formation->setAuthorId($user[0]);
+        $formation->setCoverUrl('img.png');
 
         $manager->persist($formation);
 

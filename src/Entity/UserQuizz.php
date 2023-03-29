@@ -18,8 +18,6 @@ class UserQuizz
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     protected UuidInterface|string $id;
 
-    #[ORM\Column]
-    private ?int $result = null;
 
     #[ORM\ManyToOne(inversedBy: 'user_quizz')]
     #[ORM\JoinColumn(nullable: false)]
@@ -28,6 +26,9 @@ class UserQuizz
     #[ORM\ManyToOne(inversedBy: 'user_quizz')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Quizz $quizz_id = null;
+
+    #[ORM\Column]
+    private ?bool $is_passed = null;
 
     public function getId(): ?string
     {
@@ -66,6 +67,18 @@ class UserQuizz
     public function setQuizzId(?Quizz $quizz_id): self
     {
         $this->quizz_id = $quizz_id;
+
+        return $this;
+    }
+
+    public function isIsPassed(): ?bool
+    {
+        return $this->is_passed;
+    }
+
+    public function setIsPassed(bool $is_passed): self
+    {
+        $this->is_passed = $is_passed;
 
         return $this;
     }

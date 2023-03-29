@@ -38,7 +38,6 @@ class Quizz
     }
 
 
-
     public function getId(): ?string
     {
         return $this->id;
@@ -127,5 +126,6 @@ class Quizz
 
         return $this;
     }
+
 
 }

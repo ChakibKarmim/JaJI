@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230328142830 extends AbstractMigration
+final class Version20230329093927 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20230328142830 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C72143719CF0022 ON chapters (formation_id_id)');
         $this->addSql('COMMENT ON COLUMN chapters.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN chapters.formation_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE formations (id UUID NOT NULL, career_id UUID NOT NULL, author_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, description TEXT NOT NULL, duration INT NOT NULL, difficulty VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE formations (id UUID NOT NULL, career_id UUID NOT NULL, author_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, description TEXT NOT NULL, duration INT NOT NULL, difficulty VARCHAR(50) NOT NULL, status VARCHAR(50) DEFAULT NULL, nb_lessons INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_40902137B58CDA09 ON formations (career_id)');
         $this->addSql('CREATE INDEX IDX_4090213769CCBE9A ON formations (author_id_id)');
         $this->addSql('COMMENT ON COLUMN formations.id IS \'(DC2Type:uuid)\'');
@@ -37,7 +37,7 @@ final class Version20230328142830 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_D653FD6AA76ED395 ON formations_user (user_id)');
         $this->addSql('COMMENT ON COLUMN formations_user.formations_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN formations_user.user_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE lesson (id UUID NOT NULL, chapter_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, video_url VARCHAR(255) DEFAULT NULL, content TEXT NOT NULL, intro TEXT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE lesson (id UUID NOT NULL, chapter_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, video_url VARCHAR(255) DEFAULT NULL, content TEXT NOT NULL, intro TEXT NOT NULL, duration INT NOT NULL, lesson_order INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F87474F3FF0D08E8 ON lesson (chapter_id_id)');
         $this->addSql('COMMENT ON COLUMN lesson.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN lesson.chapter_id_id IS \'(DC2Type:uuid)\'');
@@ -63,7 +63,7 @@ final class Version20230328142830 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN user_lessons.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN user_lessons.lesson_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN user_lessons.user_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE user_quizz (id UUID NOT NULL, user_id_id UUID NOT NULL, quizz_id_id UUID NOT NULL, result INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE user_quizz (id UUID NOT NULL, user_id_id UUID NOT NULL, quizz_id_id UUID NOT NULL, is_passed BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9EB56C659D86650F ON user_quizz (user_id_id)');
         $this->addSql('CREATE INDEX IDX_9EB56C6585BD94A9 ON user_quizz (quizz_id_id)');
         $this->addSql('COMMENT ON COLUMN user_quizz.id IS \'(DC2Type:uuid)\'');

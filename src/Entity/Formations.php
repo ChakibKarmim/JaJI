@@ -48,6 +48,12 @@ class Formations
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'formations')]
     private Collection $formation_users;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $status = null;
+
+    #[ORM\Column]
+    private ?int $nb_lessons = null;
+
     public function __construct()
     {
         $this->chaptre = new ArrayCollection();
@@ -213,6 +219,30 @@ class Formations
     public function removeFormationUser(User $formationUser): self
     {
         $this->formation_users->removeElement($formationUser);
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getNbLessons(): ?int
+    {
+        return $this->nb_lessons;
+    }
+
+    public function setNbLessons(int $nb_lessons): self
+    {
+        $this->nb_lessons = $nb_lessons;
 
         return $this;
     }

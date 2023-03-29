@@ -38,6 +38,12 @@ class Lesson
     #[ORM\Column(type: Types::TEXT)]
     private ?string $Intro = null;
 
+    #[ORM\Column]
+    private ?int $duration = null;
+
+    #[ORM\Column]
+    private ?int $lesson_order = null;
+
     public function __construct()
     {
         $this->user_lessons = new ArrayCollection();
@@ -134,6 +140,30 @@ class Lesson
     public function setIntro(string $Intro): self
     {
         $this->Intro = $Intro;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): self
+    {
+        $this->duration = $duration;
+
+        return $this;
+    }
+
+    public function getLessonOrder(): ?int
+    {
+        return $this->lesson_order;
+    }
+
+    public function setLessonOrder(int $lesson_order): self
+    {
+        $this->lesson_order = $lesson_order;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
@@ -45,6 +46,9 @@ class User
 
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: UserFormation::class, orphanRemoval: true)]
     private Collection $formations;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $roles = [];
 
 
 
@@ -239,6 +243,18 @@ class User
                 $formation->setUserId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

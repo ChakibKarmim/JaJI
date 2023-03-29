@@ -42,23 +42,22 @@ class Formations
     #[ORM\OneToMany(mappedBy: 'formation_id', targetEntity: Chapters::class, orphanRemoval: true)]
     private Collection $chaptre;
 
-    #[ORM\OneToMany(mappedBy: 'user_formations', targetEntity: User::class)]
-    private Collection $users;
-
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'formations')]
-    private Collection $formation_users;
-
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $status = null;
 
     #[ORM\Column]
     private ?int $nb_lessons = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $cover_url = null;
+
+    #[ORM\OneToMany(mappedBy: 'formation_id', targetEntity: UserFormation::class, orphanRemoval: true)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->chaptre = new ArrayCollection();
         $this->users = new ArrayCollection();
-        $this->formation_users = new ArrayCollection();
     }
 
 
@@ -169,60 +168,6 @@ class Formations
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setUserFormations($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getUserFormations() === $this) {
-                $user->setUserFormations(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getFormationUsers(): Collection
-    {
-        return $this->formation_users;
-    }
-
-    public function addFormationUser(User $formationUser): self
-    {
-        if (!$this->formation_users->contains($formationUser)) {
-            $this->formation_users->add($formationUser);
-        }
-
-        return $this;
-    }
-
-    public function removeFormationUser(User $formationUser): self
-    {
-        $this->formation_users->removeElement($formationUser);
-
-        return $this;
-    }
-
     public function getStatus(): ?string
     {
         return $this->status;
@@ -243,6 +188,48 @@ class Formations
     public function setNbLessons(int $nb_lessons): self
     {
         $this->nb_lessons = $nb_lessons;
+
+        return $this;
+    }
+
+    public function getCoverUrl(): ?string
+    {
+        return $this->cover_url;
+    }
+
+    public function setCoverUrl(string $cover_url): self
+    {
+        $this->cover_url = $cover_url;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserFormation>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(UserFormation $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setFormationId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(UserFormation $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getFormationId() === $this) {
+                $user->setFormationId(null);
+            }
+        }
 
         return $this;
     }

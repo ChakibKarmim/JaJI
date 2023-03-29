@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\UserLessons;
+use App\Entity\UserFormation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<UserLessons>
+ * @extends ServiceEntityRepository<UserFormation>
  *
- * @method UserLessons|null find($id, $lockMode = null, $lockVersion = null)
- * @method UserLessons|null findOneBy(array $criteria, array $orderBy = null)
- * @method UserLessons[]    findAll()
- * @method UserLessons[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserFormation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserFormation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserFormation[]    findAll()
+ * @method UserFormation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserLessonsRepository extends ServiceEntityRepository
+class UserFormationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UserLessons::class);
+        parent::__construct($registry, UserFormation::class);
     }
 
-    public function save(UserLessons $entity, bool $flush = false): void
+    public function save(UserFormation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class UserLessonsRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(UserLessons $entity, bool $flush = false): void
+    public function remove(UserFormation $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class UserLessonsRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return UserLessons[] Returns an array of UserLessons objects
+//     * @return UserFormation[] Returns an array of UserFormation objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class UserLessonsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?UserLessons
+//    public function findOneBySomeField($value): ?UserFormation
 //    {
 //        return $this->createQueryBuilder('u')
 //            ->andWhere('u.exampleField = :val')

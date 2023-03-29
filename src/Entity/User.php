@@ -24,9 +24,6 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $roles = null;
-
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -46,12 +43,11 @@ class User
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: UserLessons::class, orphanRemoval: true)]
     private Collection $lessons;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Formations $user_formations = null;
-
-    #[ORM\ManyToMany(targetEntity: Formations::class, mappedBy: 'formation_users')]
+    #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: UserFormation::class, orphanRemoval: true)]
     private Collection $formations;
+
+
+
 
     public function __construct()
     {
@@ -87,18 +83,6 @@ class User
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
-        return $this;
-    }
-
-    public function getRoles(): ?string
-    {
-        return $this->roles;
-    }
-
-    public function setRoles(string $roles): self
-    {
-        $this->roles = $roles;
 
         return $this;
     }
@@ -229,40 +213,31 @@ class User
         return $this;
     }
 
-    public function getUserFormations(): ?Formations
-    {
-        return $this->user_formations;
-    }
-
-    public function setUserFormations(?Formations $user_formations): self
-    {
-        $this->user_formations = $user_formations;
-
-        return $this;
-    }
-
     /**
-     * @return Collection<int, Formations>
+     * @return Collection<int, UserFormation>
      */
     public function getFormations(): Collection
     {
         return $this->formations;
     }
 
-    public function addFormation(Formations $formation): self
+    public function addFormation(UserFormation $formation): self
     {
         if (!$this->formations->contains($formation)) {
             $this->formations->add($formation);
-            $formation->addFormationUser($this);
+            $formation->setUserId($this);
         }
 
         return $this;
     }
 
-    public function removeFormation(Formations $formation): self
+    public function removeFormation(UserFormation $formation): self
     {
         if ($this->formations->removeElement($formation)) {
-            $formation->removeFormationUser($this);
+            // set the owning side to null (unless already changed)
+            if ($formation->getUserId() === $this) {
+                $formation->setUserId(null);
+            }
         }
 
         return $this;

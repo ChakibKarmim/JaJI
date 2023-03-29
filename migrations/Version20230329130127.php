@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230329110138 extends AbstractMigration
+final class Version20230329130127 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,17 +27,12 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_C72143719CF0022 ON chapters (formation_id_id)');
         $this->addSql('COMMENT ON COLUMN chapters.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN chapters.formation_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE formations (id UUID NOT NULL, career_id UUID NOT NULL, author_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, description TEXT NOT NULL, duration INT NOT NULL, difficulty VARCHAR(50) NOT NULL, status VARCHAR(50) DEFAULT NULL, nb_lessons INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE formations (id UUID NOT NULL, career_id UUID NOT NULL, author_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, description TEXT NOT NULL, duration INT NOT NULL, difficulty VARCHAR(50) NOT NULL, status VARCHAR(50) DEFAULT NULL, nb_lessons INT NOT NULL, cover_url VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_40902137B58CDA09 ON formations (career_id)');
         $this->addSql('CREATE INDEX IDX_4090213769CCBE9A ON formations (author_id_id)');
         $this->addSql('COMMENT ON COLUMN formations.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN formations.career_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN formations.author_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE formations_user (formations_id UUID NOT NULL, user_id UUID NOT NULL, PRIMARY KEY(formations_id, user_id))');
-        $this->addSql('CREATE INDEX IDX_D653FD6A3BF5B0C2 ON formations_user (formations_id)');
-        $this->addSql('CREATE INDEX IDX_D653FD6AA76ED395 ON formations_user (user_id)');
-        $this->addSql('COMMENT ON COLUMN formations_user.formations_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('COMMENT ON COLUMN formations_user.user_id IS \'(DC2Type:uuid)\'');
         $this->addSql('CREATE TABLE lesson (id UUID NOT NULL, chapter_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, video_url VARCHAR(255) DEFAULT NULL, content TEXT NOT NULL, intro TEXT NOT NULL, duration INT NOT NULL, lesson_order INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_F87474F3FF0D08E8 ON lesson (chapter_id_id)');
         $this->addSql('COMMENT ON COLUMN lesson.id IS \'(DC2Type:uuid)\'');
@@ -52,7 +47,7 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7C77973D2B0A929A ON quizz (chaptre_id_id)');
         $this->addSql('COMMENT ON COLUMN quizz.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN quizz.chaptre_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, user_formations_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, roles VARCHAR(50) NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, user_formations_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8D93D649B58CDA09 ON "user" (career_id)');
         $this->addSql('CREATE INDEX IDX_8D93D649D57B1D92 ON "user" (user_formations_id)');
         $this->addSql('COMMENT ON COLUMN "user".id IS \'(DC2Type:uuid)\'');
@@ -85,8 +80,6 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('ALTER TABLE chapters ADD CONSTRAINT FK_C72143719CF0022 FOREIGN KEY (formation_id_id) REFERENCES formations (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE formations ADD CONSTRAINT FK_40902137B58CDA09 FOREIGN KEY (career_id) REFERENCES career (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE formations ADD CONSTRAINT FK_4090213769CCBE9A FOREIGN KEY (author_id_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE formations_user ADD CONSTRAINT FK_D653FD6A3BF5B0C2 FOREIGN KEY (formations_id) REFERENCES formations (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE formations_user ADD CONSTRAINT FK_D653FD6AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE lesson ADD CONSTRAINT FK_F87474F3FF0D08E8 FOREIGN KEY (chapter_id_id) REFERENCES chapters (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE questions ADD CONSTRAINT FK_8ADC54D585BD94A9 FOREIGN KEY (quizz_id_id) REFERENCES quizz (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE quizz ADD CONSTRAINT FK_7C77973D2B0A929A FOREIGN KEY (chaptre_id_id) REFERENCES chapters (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -105,8 +98,6 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('ALTER TABLE chapters DROP CONSTRAINT FK_C72143719CF0022');
         $this->addSql('ALTER TABLE formations DROP CONSTRAINT FK_40902137B58CDA09');
         $this->addSql('ALTER TABLE formations DROP CONSTRAINT FK_4090213769CCBE9A');
-        $this->addSql('ALTER TABLE formations_user DROP CONSTRAINT FK_D653FD6A3BF5B0C2');
-        $this->addSql('ALTER TABLE formations_user DROP CONSTRAINT FK_D653FD6AA76ED395');
         $this->addSql('ALTER TABLE lesson DROP CONSTRAINT FK_F87474F3FF0D08E8');
         $this->addSql('ALTER TABLE questions DROP CONSTRAINT FK_8ADC54D585BD94A9');
         $this->addSql('ALTER TABLE quizz DROP CONSTRAINT FK_7C77973D2B0A929A');
@@ -119,7 +110,6 @@ final class Version20230329110138 extends AbstractMigration
         $this->addSql('DROP TABLE career');
         $this->addSql('DROP TABLE chapters');
         $this->addSql('DROP TABLE formations');
-        $this->addSql('DROP TABLE formations_user');
         $this->addSql('DROP TABLE lesson');
         $this->addSql('DROP TABLE questions');
         $this->addSql('DROP TABLE quizz');

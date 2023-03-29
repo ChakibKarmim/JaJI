@@ -18,12 +18,11 @@ class FormationsFixture extends Fixture implements DependentFixtureInterface
         $user = $manager->getRepository(User::class)->findall();
 
         $formation = new Formations();
-        $formation->setTitle('');
-        $formation->setDescription('');
-        $formation->setDuration('');
-        $formation->setDifficulty('');
-        $formation->setStatus('');
-        $formation->setNbLessons('');
+        $formation->setTitle('Formation 1');
+        $formation->setDescription('lorem ipsum');
+        $formation->setDuration(10800000);
+        $formation->setDifficulty('easy');
+        $formation->setNbLessons(2);
         $formation->setCareer($career[0]);
         $formation->setCareer($user[0]);
 

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230329093927 extends AbstractMigration
+final class Version20230329110138 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,8 +20,9 @@ final class Version20230329093927 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE career (id UUID NOT NULL, title VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE career (id UUID NOT NULL, tags TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN career.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN career.tags IS \'(DC2Type:array)\'');
         $this->addSql('CREATE TABLE chapters (id UUID NOT NULL, formation_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C72143719CF0022 ON chapters (formation_id_id)');
         $this->addSql('COMMENT ON COLUMN chapters.id IS \'(DC2Type:uuid)\'');

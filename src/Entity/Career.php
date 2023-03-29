@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CareerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Doctrine\UuidGenerator;
 use Ramsey\Uuid\UuidInterface;
@@ -18,14 +19,14 @@ class Career
     #[ORM\CustomIdGenerator(class: UuidGenerator::class)]
     protected UuidInterface|string $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $title = null;
-
     #[ORM\OneToMany(mappedBy: 'career', targetEntity: User::class, orphanRemoval: true)]
     private Collection $user_id;
 
     #[ORM\OneToMany(mappedBy: 'career', targetEntity: Formations::class, orphanRemoval: true)]
     private Collection $formation_id;
+
+    #[ORM\Column(type: Types::ARRAY)]
+    private array $tags = [];
 
     public function __construct()
     {
@@ -38,18 +39,6 @@ class Career
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     /**
@@ -108,6 +97,18 @@ class Career
                 $formationId->setCareer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
 
         return $this;
     }

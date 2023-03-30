@@ -31,6 +31,9 @@ class Chapters
     #[ORM\OneToOne(mappedBy: 'chaptre_id', cascade: ['persist', 'remove'])]
     private ?Quizz $chapter = null;
 
+    #[ORM\Column]
+    private ?int $chapter_order = null;
+
 
     public function __construct()
     {
@@ -109,6 +112,18 @@ class Chapters
         }
 
         $this->chapter = $chapter;
+
+        return $this;
+    }
+
+    public function getChapterOrder(): ?int
+    {
+        return $this->chapter_order;
+    }
+
+    public function setChapterOrder(int $chapter_order): self
+    {
+        $this->chapter_order = $chapter_order;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Formations;
 use App\Repository\FormationsRepository;
+use App\Repository\LessonRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,98 +19,54 @@ class FormationsController extends AbstractController
     public function index(FormationsRepository $formationsRepository,UserRepository $userRepository): Response
     {
         $formations = $formationsRepository->findAll();
-        $info = new JsonResponse();
+        $formationsData = [];
 
-        foreach ($formations as $formation)
-        {
+        foreach ($formations as $formation) {
             $user = $userRepository->find($formation->getAuthorId());
             $name = " ".$user->getFirstname()." ".$user->getLastname()." ";
-            $info = $this->json([
+
+            $formationData = [
                 'id' => $formation->getId(),
                 'title' => $formation->getTitle(),
                 'description' => $formation->getDescription(),
                 'author' =>  $name,
                 'duration' => $formation->getDuration(),
                 'nb_lesson' => $formation->getNbLessons(),
-            ]);
+            ];
+
+            $formationsData[] = $formationData;
         }
 
-        return $info;
+        return $this->json($formationsData);
     }
 
-    #[Route('/{id}', name: 'app_formation_', methods: ['GET'])]
-    public function show(Formations $formation,UserRepository $userRepository): Response
+    #[Route('/{id}', name: 'app_formation_light', methods: ['GET'])]
+    public function getFormationInfo(Formations $formation,UserRepository $userRepository,LessonRepository $lessonRepository): Response
     {
         $user = $userRepository->find($formation->getAuthorId());
         $name = " ".$user->getFirstname()." ".$user->getLastname()." ";
         $formation_chapters = $formation->getChaptre();
+        $chaptersData = [];
 
-        return $this->json([
+        foreach ($formation_chapters as $chapter) {
+            $chapterData = [
+                'id' => $chapter->getId(),
+                'title' => $chapter->getTitle(),
+//              'order' => $chapter->getOrder(),
+                'lessons' => $lessonRepository->findLessonsLightByChapter($chapter->getId()),
+            ];
+            $chaptersData[] = $chapterData;
+        }
+
+        $data = [
             'id' => $formation->getId(),
             'title' => $formation->getTitle(),
             'description' => $formation->getDescription(),
             'author' =>  $name,
             'duration' => $formation->getDuration(),
-            'chapters' => $formation_chapters,
-            'formation' => $formation,
-        ]);
-    }
+            'chapter' => $chaptersData,
+        ];
 
-
-
-
-
-
-
-
-
-
-
-
-    #[Route('/new', name: 'app_formations_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, FormationsRepository $formationsRepository): Response
-    {
-        $formation = new Formations();
-        $form = $this->createForm(FormationsType::class, $formation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formationsRepository->save($formation, true);
-
-            return $this->redirectToRoute('app_formations_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('formations/new.html.twig', [
-            'formation' => $formation,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_formations_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Formations $formation, FormationsRepository $formationsRepository): Response
-    {
-        $form = $this->createForm(FormationsType::class, $formation);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $formationsRepository->save($formation, true);
-
-            return $this->redirectToRoute('app_formations_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('formations/edit.html.twig', [
-            'formation' => $formation,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}', name: 'app_formations_delete', methods: ['POST'])]
-    public function delete(Request $request, Formations $formation, FormationsRepository $formationsRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$formation->getId(), $request->request->get('_token'))) {
-            $formationsRepository->remove($formation, true);
-        }
-
-        return $this->redirectToRoute('app_formations_index', [], Response::HTTP_SEE_OTHER);
+        return $this->json($data);
     }
 }

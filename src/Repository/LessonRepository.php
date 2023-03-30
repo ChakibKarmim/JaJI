@@ -54,13 +54,13 @@ class LessonRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Lesson
-//    {
-//        return $this->createQueryBuilder('l')
-//            ->andWhere('l.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findLessonsLightByChapter($chapter_id): array
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('l.id', 'l.title', 'l.lesson_order')
+            ->andWhere('l.chapter_id = :chap_id')
+            ->setParameter('chap_id', $chapter_id);
+
+        return $qb->getQuery()->getResult();
+    }
 }

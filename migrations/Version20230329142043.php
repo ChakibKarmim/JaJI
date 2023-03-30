@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230329133556 extends AbstractMigration
+final class Version20230329142043 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -48,10 +48,11 @@ final class Version20230329133556 extends AbstractMigration
         $this->addSql('CREATE UNIQUE INDEX UNIQ_7C77973D2B0A929A ON quizz (chaptre_id_id)');
         $this->addSql('COMMENT ON COLUMN quizz.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN quizz.chaptre_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id UUID NOT NULL, career_id UUID NOT NULL, firstname VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, lastname VARCHAR(50) NOT NULL, roles TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_8D93D649B58CDA09 ON "user" (career_id)');
         $this->addSql('COMMENT ON COLUMN "user".id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN "user".career_id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN "user".roles IS \'(DC2Type:array)\'');
         $this->addSql('CREATE TABLE user_formation (id INT NOT NULL, user_id_id UUID NOT NULL, formation_id_id UUID NOT NULL, status VARCHAR(50) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_40A0AC5B9D86650F ON user_formation (user_id_id)');
         $this->addSql('CREATE INDEX IDX_40A0AC5B9CF0022 ON user_formation (formation_id_id)');

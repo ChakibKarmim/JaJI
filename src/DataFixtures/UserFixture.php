@@ -19,7 +19,7 @@ class UserFixture extends Fixture implements DependentFixtureInterface
         $user->setLastname('Charaoui');
         $user->setPassword('987987');
         $user->setRoles(['ROLE_FORMER']);
-        $user->setEmail('lblume@hackathon.fr');
+        $user->setEmail('lcharaoui@hackathon.fr');
         $user->setCareer($career[4]);
         $manager->persist($user);
 
@@ -28,7 +28,7 @@ class UserFixture extends Fixture implements DependentFixtureInterface
         $user->setLastname('Sobasto');
         $user->setPassword('987987');
         $user->setRoles(['ROLE_FORMER']);
-        $user->setEmail('lblume@hackathon.fr');
+        $user->setEmail('rsobasto@hackathon.fr');
         $user->setCareer($career[5]);
         $manager->persist($user);
 
@@ -37,7 +37,7 @@ class UserFixture extends Fixture implements DependentFixtureInterface
         $user->setLastname('Lugat');
         $user->setPassword('987987');
         $user->setRoles(['ROLE_USER']);
-        $user->setEmail('lblume@hackathon.fr');
+        $user->setEmail('tlugat@hackathon.fr');
         $user->setCareer($career[1]);
         $manager->persist($user);
 
@@ -46,7 +46,7 @@ class UserFixture extends Fixture implements DependentFixtureInterface
         $user->setLastname('Karmim');
         $user->setPassword('987987');
         $user->setRoles(['ROLE_USER']);
-        $user->setEmail('lblume@hackathon.fr');
+        $user->setEmail('ckarmim@hackathon.fr');
         $user->setCareer($career[2]);
         $manager->persist($user);
 
@@ -55,7 +55,7 @@ class UserFixture extends Fixture implements DependentFixtureInterface
         $user->setLastname('Chaimi');
         $user->setPassword('987987');
         $user->setRoles(['ROLE_USER']);
-        $user->setEmail('lblume@hackathon.fr');
+        $user->setEmail('echaimi@hackathon.fr');
         $user->setCareer($career[3]);
         $manager->persist($user);
 

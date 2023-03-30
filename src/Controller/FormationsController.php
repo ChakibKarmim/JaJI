@@ -12,11 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/formations')]
+#[Route('api/')]
 class FormationsController extends AbstractController
 {
-    #[Route('/all', name: 'app_formations_index', methods: ['GET'])]
-    public function index(FormationsRepository $formationsRepository,UserRepository $userRepository): Response
+    #[Route('formations/all', name: 'app_formations_index', methods: ['GET'])]
+    public function index(FormationsRepository $formationsRepository,UserRepository $userRepository,Request $request): Response
     {
         $formations = $formationsRepository->findAll();
         $formationsData = [];
@@ -40,7 +40,7 @@ class FormationsController extends AbstractController
         return $this->json($formationsData);
     }
 
-    #[Route('/{id}', name: 'app_formation_light', methods: ['GET'])]
+    #[Route('formations/{id}', name: 'app_formation_light', methods: ['GET'])]
     public function getFormationInfo(Formations $formation,UserRepository $userRepository,LessonRepository $lessonRepository): Response
     {
         $user = $userRepository->find($formation->getAuthorId());
@@ -52,7 +52,7 @@ class FormationsController extends AbstractController
             $chapterData = [
                 'id' => $chapter->getId(),
                 'title' => $chapter->getTitle(),
-//              'order' => $chapter->getOrder(),
+                'order' => $chapter->getChapterOrder(),
                 'lessons' => $lessonRepository->findLessonsLightByChapter($chapter->getId()),
             ];
             $chaptersData[] = $chapterData;

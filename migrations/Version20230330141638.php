@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230329142043 extends AbstractMigration
+final class Version20230330141638 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,7 @@ final class Version20230329142043 extends AbstractMigration
         $this->addSql('CREATE TABLE career (id UUID NOT NULL, tags TEXT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN career.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN career.tags IS \'(DC2Type:array)\'');
-        $this->addSql('CREATE TABLE chapters (id UUID NOT NULL, formation_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE chapters (id UUID NOT NULL, formation_id_id UUID NOT NULL, title VARCHAR(50) NOT NULL, chapter_order INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C72143719CF0022 ON chapters (formation_id_id)');
         $this->addSql('COMMENT ON COLUMN chapters.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN chapters.formation_id_id IS \'(DC2Type:uuid)\'');
@@ -64,7 +64,7 @@ final class Version20230329142043 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN user_lessons.id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN user_lessons.lesson_id IS \'(DC2Type:uuid)\'');
         $this->addSql('COMMENT ON COLUMN user_lessons.user_id_id IS \'(DC2Type:uuid)\'');
-        $this->addSql('CREATE TABLE user_quizz (id UUID NOT NULL, user_id_id UUID NOT NULL, quizz_id_id UUID NOT NULL, is_passed BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE user_quizz (id UUID NOT NULL, user_id_id UUID NOT NULL, quizz_id_id UUID NOT NULL, is_passed BOOLEAN NOT NULL, is_valid BOOLEAN NOT NULL, is_completed BOOLEAN NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9EB56C659D86650F ON user_quizz (user_id_id)');
         $this->addSql('CREATE INDEX IDX_9EB56C6585BD94A9 ON user_quizz (quizz_id_id)');
         $this->addSql('COMMENT ON COLUMN user_quizz.id IS \'(DC2Type:uuid)\'');

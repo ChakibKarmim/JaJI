@@ -14,25 +14,31 @@ class ChaptersFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {   
         $formations = $manager->getRepository(Formations::class)->findall();
-        $chapters = new Chapters();
-        $chapters->setTitle('chapitre 1');
-        $chapters->setFormationId($formations[0]);
-        $manager->persist($chapters);
 
-        $chapters = new Chapters();
-        $chapters->setTitle('chapitre 2');
-        $chapters->setFormationId($formations[0]);
-        $manager->persist($chapters);
+        for($i = 0;$i<=5;$i++){
+            $chapters = new Chapters();
+            $chapters->setTitle('chapitre '.$i+1);
+            $chapters->setFormationId($formations[0]);
+            $chapters->setChapterOrder($i+1);
+            $manager->persist($chapters);
+        }
 
-        $chapters = new Chapters();
-        $chapters->setTitle('chapitre 1');
-        $chapters->setFormationId($formations[1]);
-        $manager->persist($chapters);
+        for($i = 0;$i<=5;$i++){
+            $chapters = new Chapters();
+            $chapters->setTitle('chapitre '.$i+1);
+            $chapters->setFormationId($formations[1]);
+            $chapters->setChapterOrder($i+1);
+            $manager->persist($chapters);
+        }
 
-        $chapters = new Chapters();
-        $chapters->setTitle('chapitre 2');
-        $chapters->setFormationId($formations[1]);
-        $manager->persist($chapters);
+        for($i = 0;$i<=5;$i++){
+            $chapters = new Chapters();
+            $chapters->setTitle('chapitre '.$i+1);
+            $chapters->setFormationId($formations[2]);
+            $chapters->setChapterOrder($i+1);
+            $manager->persist($chapters);
+        }
+
 
         $manager->flush();
     }

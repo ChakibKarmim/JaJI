@@ -21,7 +21,7 @@ class FormationsFixture extends Fixture implements DependentFixtureInterface
         $formation = new Formations();
         $formation->setTitle('Formation 1');
         $formation->setDescription('lorem ipsum');
-        $formation->setDuration(10800000);
+        $formation->setDuration(240000000);
         $formation->setDifficulty('easy');
         $formation->setNbLessons(2);
         $formation->setCareer($career[0]);
@@ -32,12 +32,24 @@ class FormationsFixture extends Fixture implements DependentFixtureInterface
 
         $formation = new Formations();
         $formation->setTitle('Formation 2');
-        $formation->setDescription('lorem ipsum');
-        $formation->setDuration(21600000);
+        $formation->setDescription('lorem ipsum 1');
+        $formation->setDuration(240000000);
         $formation->setDifficulty('hard');
         $formation->setNbLessons(2);
         $formation->setCareer($career[1]);
         $formation->setAuthorId($user[0]);
+        $formation->setCoverUrl('img.png');
+
+        $manager->persist($formation);
+
+        $formation = new Formations();
+        $formation->setTitle('Formation 3');
+        $formation->setDescription('lorem ipsum 2');
+        $formation->setDuration(240000000);
+        $formation->setDifficulty('easy');
+        $formation->setNbLessons(2);
+        $formation->setCareer($career[2]);
+        $formation->setAuthorId($user[1]);
         $formation->setCoverUrl('img.png');
 
         $manager->persist($formation);

@@ -23,6 +23,17 @@ class CareerFixture extends Fixture
         $career = new Career();
         $career->setTags(['Company','Care Manager']);
         $manager->persist($career);
+        $career = new Career();
+        $career->setTags(['Company','Formateur']);
+        $manager->persist($career);
+        $career = new Career();
+        $career->setTags(['Company','Manager']);
+        $manager->persist($career);
+        $career = new Career();
+        $career->setTags(['Company','Concepteur']);
+        $manager->persist($career);
+
+
 
         $manager->flush();
     }

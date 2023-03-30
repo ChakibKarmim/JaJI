@@ -30,21 +30,15 @@ class UserQuizz
     #[ORM\Column]
     private ?bool $is_passed = null;
 
+    #[ORM\Column]
+    private ?bool $is_valid = null;
+
+    #[ORM\Column]
+    private ?bool $is_completed = null;
+
     public function getId(): ?string
     {
         return $this->id;
-    }
-
-    public function getResult(): ?int
-    {
-        return $this->result;
-    }
-
-    public function setResult(int $result): self
-    {
-        $this->result = $result;
-
-        return $this;
     }
 
     public function getUserId(): ?User
@@ -79,6 +73,30 @@ class UserQuizz
     public function setIsPassed(bool $is_passed): self
     {
         $this->is_passed = $is_passed;
+
+        return $this;
+    }
+
+    public function isIsValid(): ?bool
+    {
+        return $this->is_valid;
+    }
+
+    public function setIsValid(bool $is_valid): self
+    {
+        $this->is_valid = $is_valid;
+
+        return $this;
+    }
+
+    public function isIsCompleted(): ?bool
+    {
+        return $this->is_completed;
+    }
+
+    public function setIsCompleted(bool $is_completed): self
+    {
+        $this->is_completed = $is_completed;
 
         return $this;
     }

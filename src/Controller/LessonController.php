@@ -15,9 +15,8 @@ class LessonController extends AbstractController
 {
     #[Route('/{id}', name: 'app_lesson_show', methods: ['GET'])]
     public function show(Lesson $lesson,LessonRepository $lessonRepository): Response
-    {
-
-        $current_chapter = $lessonRepository->getChapterOfLesson($lesson->getId());
+    {   
+        $current_chapter =$lesson->getChapterId()->getId();
         $number_of_lessons_in_current_chapter = $lessonRepository->getLessonsNumberInChapiter($current_chapter);
         $next_lesson = $lessonRepository->getNextPrevLesson($current_chapter,$lesson->getLessonOrder()+1);
         $prev_lesson = $lessonRepository->getNextPrevLesson($current_chapter,$lesson->getLessonOrder()-1);

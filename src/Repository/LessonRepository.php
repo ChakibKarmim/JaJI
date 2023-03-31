@@ -63,4 +63,34 @@ class LessonRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function getChapterOfLesson($lesson_id)
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('l.chapter_id')
+            ->andWhere('l.id = :lesson_id')
+            ->setParameter('lesson_id', $lesson_id);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getLessonsNumberInChapiter($chapter_id): array
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('count(*)')
+            ->andWhere('l.chapter_id = :chap_id')
+            ->setParameter('chap_id', $chapter_id);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getNextPrevLesson($chapter_id,$order): string
+    {
+        $qb = $this->createQueryBuilder('l');
+        $qb->select('l.id,l.lesson_order')
+            ->andWhere('l.chapter_id = :chap_id')
+            ->andWhere('l.lesson_order =:order')
+            ->setParameter('order',$order)
+            ->setParameter('chap_id',$chapter_id);
+
+        return $qb->getQuery()->getResult();
+    }
 }

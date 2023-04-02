@@ -97,7 +97,6 @@ class LessonController extends AbstractController
             'chapter' => $chapter_info,
             'formation' => $formation_info,
         ];
-        dd($data);
         return $this->json($data);
     }
 

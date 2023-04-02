@@ -12,11 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\UserQuizz;
-use App\Repository\QuizzRepository;
 use App\Repository\UserQuizzRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -67,14 +63,9 @@ class QuizzController extends AbstractController
             'chapter' =>['id'=>$quizz->getChaptreId()->getId(),'title'=>$quizz->getChaptreId()->getTitle(),'chapter_order'=>$quizz->getChaptreId()->getChapterOrder()],
             'formation' => ['id'=>$quizz->getChaptreId()->getFormationId()->getId(),'title'=>$quizz->getChaptreId()->getFormationId()->getTitle()],
         ];
-        dd($data);
         return $this->json($data);
     }
 
-}
-
-
- 
     #[Route('quizz', name: 'quizz', methods: ['POST'])]
     public function index(Request $request, QuizzRepository $quizzRepository, SerializerInterface $serializer, UserQuizzRepository $userQuizzRepository): Response
     {

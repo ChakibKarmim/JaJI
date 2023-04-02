@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Formations;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -64,6 +65,9 @@ class FormationsRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function findOneBySomeField($value): ?Formations
     {
         return $this->createQueryBuilder('f')
@@ -72,5 +76,19 @@ class FormationsRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getLightInfo(?string $current_formation_id)
+    {
+        return $this->createQueryBuilder('f')
+            ->select('f.id','f.title')
+            ->andWhere('f.id = :formation_id')
+            ->setParameter('formation_id', $current_formation_id)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 }

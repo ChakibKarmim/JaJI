@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Chapters;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -63,4 +64,32 @@ class ChaptersRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function getLightInfo($chapter_id)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id','c.title','c.chapter_order')
+            ->andWhere('c.id = :chapter_id')
+            ->setParameter('chapter_id', $chapter_id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+
+    public function findPrevChapter($formation, $order)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('c.id','c.title','c.chapter_order')
+            ->andWhere('c.formation_id = :formation')
+            ->andWhere('c.chapter_order = :order')
+            ->setParameter('formation', $formation)
+            ->setParameter('order',$order)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

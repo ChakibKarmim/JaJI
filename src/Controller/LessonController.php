@@ -17,8 +17,7 @@ class LessonController extends AbstractController
     #[Route('/lesson', name: 'app_lesson_post', methods: ['POST'])]
     public function post(LessonRepository $lessonRepository, Request $request, ChaptersRepository $chaptersRepository): Response
     {
-        $data = json_decode($request->getContent(), true);
-        
+        $data = json_decode($request->getContent(), true);     
 
         try {
             $newLesson = new Lesson();
@@ -44,5 +43,29 @@ class LessonController extends AbstractController
             );
 
     }
+
+    #[Route('/lesson/{id}', name: 'app_lesson_show', methods: ['GET'])]
+    public function show(Lesson $lesson,LessonRepository $lessonRepository): Response
+    {   
+        $current_chapter =$lesson->getChapterId()->getId();
+        $number_of_lessons_in_current_chapter = $lessonRepository->getLessonsNumberInChapiter($current_chapter);
+        $next_lesson = $lessonRepository->getNextPrevLesson($current_chapter,$lesson->getLessonOrder()+1);
+        $prev_lesson = $lessonRepository->getNextPrevLesson($current_chapter,$lesson->getLessonOrder()-1);
+
+        $data = [
+            'id' => $lesson->getId(),
+            'title' => $lesson->getTitle(),
+            'Intro' => $lesson->getIntro(),
+            'Order' =>  $lesson->getLessonOrder(),
+            'duration' => $lesson->getDuration(),
+            'content' => $lesson->getContent(),
+            'video_url' => $lesson->getVideoUrl(),
+            'next' => $next_lesson,
+            'prev' => $prev_lesson,
+        ];
+
+        return $this->json($lesson);
+    }
+
 
 }

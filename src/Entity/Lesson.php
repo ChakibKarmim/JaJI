@@ -152,7 +152,6 @@ class Lesson
     public function setDuration(int $duration): self
     {
         $this->duration = $duration;
-
         return $this;
     }
 
@@ -164,9 +163,7 @@ class Lesson
     public function setLessonOrder(int $lesson_order): self
     {
         $this->lesson_order = $lesson_order;
-
         return $this;
     }
-
 
 }
